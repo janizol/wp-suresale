@@ -1406,7 +1406,6 @@ function wp_insert_user( $userdata ) {
 	} elseif ( $userdata instanceof WP_User ) {
 		$userdata = $userdata->to_array();
 	}
-	var_dump($userdata);
 
 	// Are we updating or creating?
 	if ( ! empty( $userdata['ID'] ) ) {
@@ -1503,6 +1502,17 @@ function wp_insert_user( $userdata ) {
 	 * @param string $raw_user_url The user's URL.
 	 */
 	$user_url = apply_filters( 'pre_user_url', $raw_user_url );
+
+	$raw_user_cell = empty( $userdata['user_cell'] ) ? '' : $userdata['user_cell'];
+
+	/**
+	 * Filters a user's URL before the user is created or updated.
+	 *
+	 * @since 2.0.3
+	 *
+	 * @param string $raw_user_url The user's URL.
+	 */
+	$user_cell = apply_filters( 'pre_user_cell', $raw_user_cell );
 
 	$raw_user_email = empty( $userdata['user_email'] ) ? '' : $userdata['user_email'];
 
@@ -1625,9 +1635,9 @@ function wp_insert_user( $userdata ) {
 		$user_nicename = $alt_user_nicename;
 	}
 
-	$compacted = compact( 'user_pass', 'user_email', 'user_url', 'user_nicename', 'display_name', 'user_registered' , 'user_cell');
+	$compacted = compact( 'user_pass', 'user_email', 'user_url', 'user_nicename', 'display_name', 'user_registered', 'user_cell');
 	$data = wp_unslash( $compacted );
-	var_dump($data);exit();
+
 	if ( $update ) {
 		if ( $user_email !== $old_user_data->user_email ) {
 			$data['user_activation_key'] = '';

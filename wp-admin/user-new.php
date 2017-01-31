@@ -187,7 +187,6 @@ Please click the following link to confirm the invite:
 			die();
 		}
 	}
-
 }
 
 $title = __('Add New User');
@@ -416,7 +415,7 @@ $new_user_firstname = $creating && isset( $_POST['first_name'] ) ? wp_unslash( $
 $new_user_lastname = $creating && isset( $_POST['last_name'] ) ? wp_unslash( $_POST['last_name'] ) : '';
 $new_user_email = $creating && isset( $_POST['email'] ) ? wp_unslash( $_POST['email'] ) : '';
 $new_user_cell = $creating && isset( $_POST['cell'] ) ? wp_unslash( $_POST['cell'] ) : '';
-//$new_user_uri = $creating && isset( $_POST['url'] ) ? wp_unslash( $_POST['url'] ) : '';
+$new_user_uri = $creating && isset( $_POST['url'] ) ? wp_unslash( $_POST['url'] ) : '';
 $new_user_role = $creating && isset( $_POST['role'] ) ? wp_unslash( $_POST['role'] ) : '';
 $new_user_send_notification = $creating && ! isset( $_POST['send_user_notification'] ) ? false : true;
 $new_user_ignore_pass = $creating && isset( $_POST['noconfirmation'] ) ? wp_unslash( $_POST['noconfirmation'] ) : '';
@@ -444,10 +443,10 @@ $new_user_ignore_pass = $creating && isset( $_POST['noconfirmation'] ) ? wp_unsl
 		<th scope="row"><label for="last_name"><?php _e('Last Name') ?> </label></th>
 		<td><input name="last_name" type="text" id="last_name" value="<?php echo esc_attr($new_user_lastname); ?>" /></td>
 	</tr>
-	<!--tr class="form-field">
+	<tr class="form-field">
 		<th scope="row"><label for="url"><?php _e('Website') ?></label></th>
 		<td><input name="url" type="url" id="url" class="code" value="<?php echo esc_attr( $new_user_uri ); ?>" /></td>
-	</tr-->
+	</tr>
 	<tr class="form-field form-required user-pass1-wrap">
 		<th scope="row">
 			<label for="pass1">
