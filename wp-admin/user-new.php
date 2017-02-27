@@ -138,8 +138,8 @@ Please click the following link to confirm the invite:
 			//Execute sms script
 			$sms = new MyMobileAPI();
 			$text_msg = "You have been registered to suresale with username ".$user_data->data->user_login." and password ".$user_data->data->user_pass.". Please login and complete registration.";
-			/*
-			$smssent = $sms->sendSms('0739333361',$text_msg); //Send SMS
+
+			$smssent = $sms->sendSms($user_data->data->user_cell,$text_msg); //Send SMS
 			//$sms->checkcredits(); //Check your credit balance
 			if($smssent){
 				wp_redirect( $redirect );
@@ -147,7 +147,7 @@ Please click the following link to confirm the invite:
 			} else {
 				echo 'sms failed';
 				die();
-			}*/
+			}
 
 			wp_redirect( $redirect );
 			die();
