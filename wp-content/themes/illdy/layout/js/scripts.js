@@ -70,11 +70,11 @@ jQuery( document ).ready( function($) {
 			$( '#team .section-content .person' ).each( function() {
 				var person = $( this );
 				var dataPersonColor = $( person ).data( 'person-color' );
-				var personPosition = $( person ).children( '.person-content' ).children( 'h5' );
+				var personPosition = $( person ).children( '.person-content' ).children( '.person-position' );
 				var personContentSocial = $( person ).children( '.person-content' ).children( '.person-content-social.clearfix' ).children( 'li' ).children( 'a' );
 
 				$( personPosition ).css( 'color', dataPersonColor );
-				$( personContentSocial ).css( 'background-color', dataPersonColor );
+				$( personContentSocial ).css( {'border-color': dataPersonColor, "color" : dataPersonColor} );
 			});
 		}
 	}
@@ -82,9 +82,9 @@ jQuery( document ).ready( function($) {
 	// Sub Menu
 	function subMenu() {
 		$( '#header .top-header .header-navigation ul li.menu-item-has-children' ).hover( function() {
-			$( this ).children( 'ul' ).css( 'visibility', 'visible' ).fadeIn();
+			$( this ).children( 'ul' ).css( 'visibility', 'visible' );
 		}, function() {
-			$( this ).children( 'ul' ).css( 'visibility', 'hidden' ).fadeOut();
+			$( this ).children( 'ul' ).css( 'visibility', 'hidden' );
 		});
 	}
 
@@ -94,8 +94,8 @@ jQuery( document ).ready( function($) {
 			var subSubMenu = $( '#header .top-header .header-navigation ul li.menu-item-has-children ul' );
 
 			$( subSubMenu ).each( function() {
-				if( ( windowWidth - $( this ).offset()['left'] ) < 250 ) {
-					$( this ).css( 'left', '-250px' );
+				if( ( windowWidth - $( this ).offset()['left'] ) < 200 ) {
+					$( this ).css( 'left', '-200px' );
 				}
 			});
 		}

@@ -1,31 +1,16 @@
 <?php
-// Set Panel ID
-$panel_id = 'illdy_panel_counter';
-
 // Set prefix
 $prefix = 'illdy';
-
-/***********************************************/
-/******************* COUNTER  ******************/
-/***********************************************/
-// $wp_customize->add_panel( $panel_id,
-//     array(
-//         'priority'          => 107,
-//         'capability'        => 'edit_theme_options',
-//         'theme_supports'    => '',
-//         'title'             => __( 'Counter Section', 'illdy' ),
-//         'description'       => __( 'Control various options for counter section from front page.', 'illdy' ),
-//     )
-// );
 
 /***********************************************/
 /******************* General *******************/
 /***********************************************/
 $wp_customize->add_section( $prefix . '_counter_general' ,
     array(
-        'priority'      => 107,
+        'priority'      => illdy_get_section_position($prefix . '_counter_general'),
         'title'         => __( 'Counter Section', 'illdy' ),
         'description'   => __( '*In order to get this section to show up on the front-page, make sure you have: 1) enabled static front-page & 2) have a widget placed in this sidebar. More specifically go to Widgets -> Front page - counter sidebar & place the [Illdy] - Counter widget in here.', 'illdy' ),
+        'panel'         => 'illdy_frontpage_panel'
     )
 );
 
@@ -37,14 +22,14 @@ $wp_customize->add_setting( $prefix . '_counter_general_show',
         'transport'         => 'postMessage'
     )
 );
-$wp_customize->add_control(
+$wp_customize->add_control(  new Epsilon_Control_Toggle( $wp_customize,
     $prefix . '_counter_general_show',
     array(
-        'type'      => 'checkbox',
+        'type'      => 'mte-toggle',
         'label'     => __( 'Show this section?', 'illdy' ),
         'section'   => $prefix . '_counter_general',
         'priority'  => 1
-    )
+    ) )
 );
 
 
@@ -79,7 +64,7 @@ $wp_customize->add_control(
     new WP_Customize_Image_Control(
         $wp_customize, $prefix . '_counter_background_image',
         array(
-            'label'     => __( 'Image', 'illdy' ),
+            'label'     => __( 'Background Image', 'illdy' ),
             'section'   => $prefix .'_counter_general',
             'settings'  => $prefix . '_counter_background_image',
             'priority'  => 2
@@ -101,9 +86,28 @@ $wp_customize->add_control(
     $wp_customize, 
     $prefix . '_counter_background_color',
     array(
-        'label'     => __( 'Color', 'illdy' ),
+        'label'     => __( 'Background Color', 'illdy' ),
         'section'   => $prefix .'_counter_general',
         'settings'  => $prefix . '_counter_background_color',
         'priority'  => 3
     ) ) 
+);
+$wp_customize->add_setting( $prefix .'_counters_widget_button',
+    array(
+        'transport'         => 'postMessage',
+        'sanitize_callback' => 'wp_kses_post',
+    )
+);
+$wp_customize->add_control(
+    new Epsilon_Control_Button(
+        $wp_customize,
+        $prefix .'_counters_widget_button',
+        array(
+            'text'         => __( 'Add & Edit Counters', 'illdy' ),
+            'section_id'    => 'sidebar-widgets-front-page-counter-sidebar',
+            'icon'          => 'dashicons-plus',
+            'section'       => $prefix .'_counter_general',
+            'priority'      => 5
+        )
+    )
 );

@@ -135,7 +135,6 @@ input {
 					font-weight: 700;
 					font-size: 16px;
 					color: #ffffff;
-					text-transform: uppercase;
 					position: relative;
 					float: left;
 
@@ -343,7 +342,7 @@ input {
 						line-height: 29px;
 						background-color: #000000;
 						position: absolute;
-						top: -45px;
+						top: 0px;
 						right: -28px;
 						@include border-radius(3px);
 						font-weight: 700;
@@ -1609,6 +1608,7 @@ input {
 				font-family: "FontAwesome";
 				color: #000000;
 				float: left;
+				display:none;
 			}
 
 			#s {

@@ -26,10 +26,14 @@ if ( get_option( 'show_on_front' ) == 'page' && is_front_page() ) {
 	global $post;
 	if ( has_post_thumbnail( $post->ID ) ) {
 		$style = 'background-image: url(' . esc_url( get_the_post_thumbnail_url( $post->ID, 'full' ) ) . ');';
+	}else {
+		$style = 'background-image: url(' . get_header_image() . ');';
 	}
 } else {
 	$style = 'background-image: url(' . get_header_image() . ');';
 }
+
+$url = get_theme_mod( 'header_image', get_theme_support( 'custom-header', 'default-image' ) );
 
 // append the parallax effect
 if ( $jumbotron_parallax_enable == true ) {
@@ -57,7 +61,7 @@ else: echo 'header-blog'; endif; ?>" style="<?php echo $style ?>">
 	<div class="top-header">
 		<div class="container">
 			<div class="row">
-				<div class="col-sm-2 col-xs-8">
+				<div class="col-sm-4 col-xs-8">
 
 					<?php if ( ! empty( $logo_image ) ) { ?>
 						<?php echo '<a href="' . esc_url( home_url() ) . '"><img src="' . esc_url( $logo_image[0] ) . '" /></a>'; ?>
@@ -70,25 +74,18 @@ else: echo 'header-blog'; endif; ?>" style="<?php echo $style ?>">
 					<?php } ?>
 
 				</div><!--/.col-sm-2-->
-				<div class="col-sm-10 col-xs-4">
+				<div class="col-sm-8 col-xs-4">
 					<nav class="header-navigation">
-						<ul class="clearfix">
-							<?php
-							wp_nav_menu( array(
-								'theme_location'  => 'primary-menu',
-								'menu'            => '',
-								'container'       => '',
-								'container_class' => '',
-								'container_id'    => '',
-								'menu_class'      => '',
-								'menu_id'         => '',
-								'items_wrap'      => '%3$s',
-								'walker'          => new Illdy_Extended_Menu_Walker(),
-								'fallback_cb'     => 'Illdy_Extended_Menu_Walker::fallback',
-							) );
-							?>
-						</ul><!--/.clearfix-->
-					</nav><!--/.header-navigation-->
+					<?php
+						wp_nav_menu( array(
+							'theme_location'  => 'primary-menu',
+							'menu'            => '',
+							'container'       => false,
+							'menu_class'      => 'clearfix',
+							'menu_id'         => '',
+						) );
+					?>
+					</nav>
 					<button class="open-responsive-menu"><i class="fa fa-bars"></i></button>
 				</div><!--/.col-sm-10-->
 			</div><!--/.row-->
@@ -106,8 +103,6 @@ else: echo 'header-blog'; endif; ?>" style="<?php echo $style ?>">
 				'menu_class'      => '',
 				'menu_id'         => '',
 				'items_wrap'      => '%3$s',
-				'walker'          => new Illdy_Extended_Menu_Walker(),
-				'fallback_cb'     => 'Illdy_Extended_Menu_Walker::fallback',
 			) );
 			?>
 		</ul>

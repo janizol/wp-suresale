@@ -26,12 +26,12 @@ if ( current_user_can( 'edit_theme_options' ) ) {
 				<div class="row">
 					<?php if( $general_title ): ?>
 						<div class="col-sm-12">
-							<h3><?php echo illdy_sanitize_html( $general_title ); ?></h3>
+							<h3><?php echo do_shortcode(wp_kses_post( $general_title )); ?></h3>
 						</div><!--/.col-sm-12-->
 					<?php endif; ?>
 					<?php if( $general_entry ): ?>
 						<div class="col-sm-10 col-sm-offset-1">
-							<p><?php echo illdy_sanitize_html( $general_entry ); ?></p>
+							<div class="section-description"><?php echo do_shortcode(wp_kses_post( $general_entry )); ?></div>
 						</div><!--/.col-sm-10.col-sm-offset-1-->
 					<?php endif; ?>
 				</div><!--/.row-->
@@ -51,11 +51,10 @@ if ( current_user_can( 'edit_theme_options' ) ) {
 						'before_title'	=> '',
 						'after_title'	=> ''
 					);
-
-					the_widget( 'Illdy_Widget_Project', 'title='. __( 'Project 1', 'illdy' ) .'&image='. esc_url( '/layout/images/front-page/front-page-project-1.jpg' ) .'&url='. esc_url( '#' ), $the_widget_args );
-					the_widget( 'Illdy_Widget_Project', 'title='. __( 'Project 2', 'illdy' ) .'&image='. esc_url( '/layout/images/front-page/front-page-project-2.jpg' ) .'&url='. esc_url( '#' ), $the_widget_args );
-					the_widget( 'Illdy_Widget_Project', 'title='. __( 'Project 3', 'illdy' ) .'&image='. esc_url( '/layout/images/front-page/front-page-project-3.jpg' ) .'&url='. esc_url( '#' ), $the_widget_args );
-					the_widget( 'Illdy_Widget_Project', 'title='. __( 'Project 4', 'illdy' ) .'&image='. esc_url( '/layout/images/front-page/front-page-project-4.jpg' ) .'&url='. esc_url( '#' ), $the_widget_args );
+					the_widget( 'Illdy_Widget_Project', 'title='. __( 'Project 1', 'illdy' ) .'&image='. get_template_directory_uri().esc_url( '/layout/images/front-page/front-page-project-1.png' ) .'&url='. esc_url( '#' ), $the_widget_args );
+					the_widget( 'Illdy_Widget_Project', 'title='. __( 'Project 2', 'illdy' ) .'&image='. get_template_directory_uri().esc_url( '/layout/images/front-page/front-page-project-2.png' ) .'&url='. esc_url( '#' ), $the_widget_args );
+					the_widget( 'Illdy_Widget_Project', 'title='. __( 'Project 3', 'illdy' ) .'&image='. get_template_directory_uri().esc_url( '/layout/images/front-page/front-page-project-3.png' ) .'&url='. esc_url( '#' ), $the_widget_args );
+					the_widget( 'Illdy_Widget_Project', 'title='. __( 'Project 4', 'illdy' ) .'&image='. get_template_directory_uri().esc_url( '/layout/images/front-page/front-page-project-4.png' ) .'&url='. esc_url( '#' ), $the_widget_args );
 				endif;
 				?>
 			</div><!--/.row-->

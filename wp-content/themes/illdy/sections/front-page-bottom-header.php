@@ -35,7 +35,7 @@ if ( $first_row_from_title || $second_row_from_title || $third_row_from_title ||
 			<div class="row">
 				<?php if ( $first_row_from_title || $second_row_from_title || $third_row_from_title ): ?>
 					<div class="col-sm-12">
-						<h2><?php if ( $first_row_from_title ) {
+						<h1><?php if ( $first_row_from_title ) {
 								echo '<span data-customizer="first-row-from-title">' . illdy_sanitize_html( $first_row_from_title ) . '</span><span class="span-dot first-span-dot">' . __( '.', 'illdy' ) . '</span>';
 							} ?>
 							<?php if ( $second_row_from_title ) {
@@ -45,12 +45,12 @@ if ( $first_row_from_title || $second_row_from_title || $third_row_from_title ||
 							<?php if ( $third_row_from_title ) {
 								echo '<span data-customizer="third-row-from-title">' . illdy_sanitize_html( $third_row_from_title ) . '</span>';
 							} ?>
-						</h2>
+						</h1>
 					</div><!--/.col-sm-12-->
 				<?php endif; ?>
 				<div class="col-sm-8 col-sm-offset-2">
 					<?php if ( $entry ): ?>
-						<p><?php echo illdy_sanitize_html( $entry ); ?></p>
+						<div class="section-description"><?php echo do_shortcode(wp_kses_post( $entry )); ?></div>
 					<?php endif; ?>
 					<?php if ( $first_button_title ): ?>
 						<a href="<?php echo esc_url( $first_button_url ); ?>" title="<?php echo esc_attr( $first_button_title ); ?>" class="header-button-one"><?php echo esc_html( $first_button_title ); ?></a>

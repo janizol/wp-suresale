@@ -10,16 +10,25 @@
 <div class="bottom-header blog">
 	<div class="container">
 		<div class="row">
-			<?php if ( is_page_template( 'page-templates/blog.php' ) || is_singular() ): ?>
-				<div class="col-sm-12">
-					<h2><?php the_title(); ?><span class="span-dot">.</span></h2>
-				</div><!--/.col-sm-12-->
-			<?php else: ?>
+			<?php if ( is_404() ) { ?>
+				<h1><?php _e( 'Page not found', 'illdy' ) ?></h1>			 
+			<?php }elseif ( is_page_template( 'page-templates/blog.php' ) || is_singular() ){ ?>
 				<div class="col-sm-12">
 					<?php
 
-					$current_site_title        = get_bloginfo( 'name' );
-					$custom_blog_archive_title = get_theme_mod( 'illdy_custom_blog_archive_title', __( 'Blog', 'illdy' ) );
+						$title = get_the_title();
+						echo '<h1>' . esc_html( $title ) . '</h1>';
+
+					?>
+				</div><!--/.col-sm-12-->
+			<?php }elseif ( class_exists( 'WooCommerce' ) && is_shop() ) {
+				$title = get_the_title(woocommerce_get_page_id( 'shop' ));
+				echo '<h1>' . esc_html( $title ) . '</h1>';
+			}else{ ?>
+				<div class="col-sm-12">
+					<?php
+
+					$custom_blog_archive_title        = get_bloginfo( 'name' );
 
 					// check if the current page being displayed is the same one set in Settings -> Reading as the blog page.
 					// Only for this page we're employing some custom logic to display a custom title.
@@ -27,19 +36,23 @@
 					// 2. the_archive_title used as fallback
 
 
-					if ( ! empty( $custom_blog_archive_title ) ) {
-						echo '<h2>' . esc_html( $custom_blog_archive_title ) . '<span class="span-dot">.</span></h2>';
+					if ( ! empty( $custom_blog_archive_title ) && is_home() ) {
+						echo '<h2>' . esc_html( $custom_blog_archive_title ) . '</h2>';
 					} else {
-						the_archive_title( '<h2>', '<span class="span-dot">.</span></h2>' );
+						$archive_title = get_the_archive_title();
+						echo '<h2>' . esc_html( $archive_title ) . '</h2>';
 					}
 
 					?>
 				</div><!--/.col-sm-12-->
 				<div class="col-sm-8 col-sm-offset-2">
-					<?php echo '<p>' . get_bloginfo( 'description' ) . '</p>'; ?>
-					<?php the_archive_description( '<p>', '</p>' ); ?>
+					<?php if ( is_home() ){ ?>
+						<?php echo '<p>' . get_bloginfo( 'description' ) . '</p>'; ?>
+					<?php }else{ ?>
+						<?php the_archive_description( '<p>', '</p>' ); ?>
+					<?php } ?>
 				</div><!--/.col-sm-8.col-sm-offset-2-->
-			<?php endif; ?>
+			<?php } ?>
 		</div><!--/.row-->
 	</div><!--/.container-->
 </div><!--/.bottom-header.blog-->

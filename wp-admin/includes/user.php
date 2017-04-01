@@ -73,8 +73,6 @@ function edit_user( $user_id = 0 ) {
 			$user->user_url = preg_match('/^(' . $protocols . '):/is', $user->user_url) ? $user->user_url : 'http://'.$user->user_url;
 		}
 	}
-	if(isset($_POST['cell']))
-		$user->user_cell = sanitize_text_field( $_POST['cell'] );
 	if ( isset( $_POST['first_name'] ) )
 		$user->first_name = sanitize_text_field( $_POST['first_name'] );
 	if ( isset( $_POST['last_name'] ) )

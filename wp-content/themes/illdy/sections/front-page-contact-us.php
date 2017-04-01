@@ -22,7 +22,7 @@ if ( current_user_can( 'edit_theme_options' ) ) {
 	$address1               = get_theme_mod( 'illdy_address1', __( 'Street 221B Baker Street, ', 'illdy' ) );
 	$address2               = get_theme_mod( 'illdy_address2', __( 'London, UK', 'illdy' ) );
 	$general_title          = get_theme_mod( 'illdy_contact_us_general_title', __( 'Contact us', 'illdy' ) );
-	$general_entry          = get_theme_mod( 'illdy_contact_us_general_entry', __( 'And we will get in touch as soon as possible.', 'illdy' ) );
+	$general_entry          = get_theme_mod( 'illdy_contact_us_entry', __( 'And we will get in touch as soon as possible.', 'illdy' ) );
 	$general_contact_form_7 = get_theme_mod( 'illdy_contact_us_general_contact_form_7' );
 	$general_address_title  = get_theme_mod( 'illdy_contact_us_general_address_title', __( 'Address', 'illdy' ) );
 	$customer_support_title = get_theme_mod( 'illdy_contact_us_general_customer_support_title', __( 'Customer Support', 'illdy' ) );
@@ -40,7 +40,7 @@ if ( current_user_can( 'edit_theme_options' ) ) {
 	$address1                  = get_theme_mod( 'illdy_address1' );
 	$address2                  = get_theme_mod( 'illdy_address2' );
 	$general_title             = get_theme_mod( 'illdy_contact_us_general_title' );
-	$general_entry             = get_theme_mod( 'illdy_contact_us_general_entry' );
+	$general_entry             = get_theme_mod( 'illdy_contact_us_entry' );
 	$general_contact_form_7    = get_theme_mod( 'illdy_contact_us_general_contact_form_7' );
 	$general_address_title     = get_theme_mod( 'illdy_contact_us_general_address_title' );
 	$customer_support_title    = get_theme_mod( 'illdy_contact_us_general_customer_support_title' );
@@ -58,12 +58,12 @@ if ( $general_title != '' || $general_entry != '' || $general_address_title != '
 					<div class="row">
 						<?php if ( $general_title ): ?>
 							<div class="col-sm-12">
-								<h3><?php echo illdy_sanitize_html( $general_title ); ?></h3>
+								<h3><?php echo do_shortcode(wp_kses_post( $general_title )); ?></h3>
 							</div><!--/.col-sm-12-->
 						<?php endif; ?>
 						<?php if ( $general_entry ): ?>
 							<div class="col-sm-10 col-sm-offset-1">
-								<p><?php echo illdy_sanitize_html( $general_entry ); ?></p>
+								<div class="section-description"><?php echo do_shortcode(wp_kses_post( $general_entry )); ?></div>
 							</div><!--/.col-sm-10.col-sm-offset-1-->
 						<?php endif; ?>
 					</div><!--/.row-->
@@ -105,7 +105,7 @@ if ( $general_title != '' || $general_entry != '' || $general_address_title != '
 												<a href="mailto:<?php echo esc_attr( $email ); ?>" title="<?php echo esc_attr( $email ); ?>"><?php echo esc_html( $email ); ?></a></span>
 										<?php endif; ?>
 										<?php if ( $phone ): ?>
-											<span class="box-right-row" data-customizer="contact-us-phone"><?php _e( 'Phone:', 'illdy' ); ?><?php echo illdy_sanitize_html( $phone ); ?></span>
+											<span class="box-right-row" data-customizer="contact-us-phone"><?php _e( 'Phone:', 'illdy' ); ?> <?php echo illdy_sanitize_html( $phone ); ?></span>
 										<?php endif; ?>
 									</div><!--/.box-right-->
 								</div><!--/.contact-us-box-->
@@ -145,7 +145,7 @@ if ( $general_title != '' || $general_entry != '' || $general_address_title != '
 				</div><!--/.row-->
 				<div class="row">
 					<div class="col-sm-12">
-						<?php if ( class_exists( 'WPCF7' ) && $general_contact_form_7 != null && $general_contact_form_7 != 'default' ): ?>
+						<?php if ( class_exists( 'WPCF7' ) && $general_contact_form_7 != null && $general_contact_form_7 != 'default' && get_post($general_contact_form_7) ): ?>
 							<?php $shortcode = '[contact-form-7 id="' . esc_html( $general_contact_form_7 ) . '"]'; ?>
 							<?php echo do_shortcode( $shortcode ); ?>
 						<?php endif; ?>
