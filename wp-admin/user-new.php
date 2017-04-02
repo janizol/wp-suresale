@@ -9,6 +9,8 @@
 /** WordPress Administration Bootstrap */
 require_once( dirname( __FILE__ ) . '/admin.php' );
 
+require_once( dirname( __FILE__ ) . '/my-mobile-api-class.php');
+
 if ( is_multisite() ) {
 	if ( ! current_user_can( 'create_users' ) && ! current_user_can( 'promote_users' ) ) {
 		wp_die(
@@ -129,6 +131,24 @@ Please click the following link to confirm the invite:
 				$redirect = 'users.php?update=add&id=' . $user_id;
 			else
 				$redirect = add_query_arg( 'update', 'add', 'user-new.php' );
+
+			//get user info
+			$user_data = get_userdata( $user_id );
+//var_dump($user_data);exit();
+			//Execute sms script
+			$sms = new MyMobileAPI();
+			$text_msg = "You have been registered to suresale with username ".$user_data->data->user_login." and password ".$user_data->data->user_pass.". Please login and complete registration.";
+
+			$smssent = $sms->sendSms($user_data->data->user_cell,$text_msg); //Send SMS
+			//$sms->checkcredits(); //Check your credit balance
+			if($smssent){
+				wp_redirect( $redirect );
+				die();
+			} else {
+				echo 'sms failed';
+				die();
+			}
+
 			wp_redirect( $redirect );
 			die();
 		}
@@ -394,6 +414,7 @@ $new_user_login = $creating && isset( $_POST['user_login'] ) ? wp_unslash( $_POS
 $new_user_firstname = $creating && isset( $_POST['first_name'] ) ? wp_unslash( $_POST['first_name'] ) : '';
 $new_user_lastname = $creating && isset( $_POST['last_name'] ) ? wp_unslash( $_POST['last_name'] ) : '';
 $new_user_email = $creating && isset( $_POST['email'] ) ? wp_unslash( $_POST['email'] ) : '';
+$new_user_cell = $creating && isset( $_POST['cell'] ) ? wp_unslash( $_POST['cell'] ) : '';
 $new_user_uri = $creating && isset( $_POST['url'] ) ? wp_unslash( $_POST['url'] ) : '';
 $new_user_role = $creating && isset( $_POST['role'] ) ? wp_unslash( $_POST['role'] ) : '';
 $new_user_send_notification = $creating && ! isset( $_POST['send_user_notification'] ) ? false : true;
@@ -408,6 +429,10 @@ $new_user_ignore_pass = $creating && isset( $_POST['noconfirmation'] ) ? wp_unsl
 	<tr class="form-field form-required">
 		<th scope="row"><label for="email"><?php _e('Email'); ?> <span class="description"><?php _e('(required)'); ?></span></label></th>
 		<td><input name="email" type="email" id="email" value="<?php echo esc_attr( $new_user_email ); ?>" /></td>
+	</tr>
+	<tr class="form-field form-required">
+		<th scope="row"><label for="cell"><?php _e('Cell'); ?> <span class="description"><?php _e('(required)'); ?></span></label></th>
+		<td><input name="cell" type="tel" id="cell" value="<?php echo esc_attr( $new_user_cell ); ?>" /></td>
 	</tr>
 <?php if ( !is_multisite() ) { ?>
 	<tr class="form-field">

@@ -2855,6 +2855,48 @@ function convert_smilies( $text ) {
 	return $output;
 }
 
+
+/**
+ * Verifies that an email is valid.
+ *
+ * Does not grok i18n domains. Not RFC compliant.
+ *
+ * @since 0.71
+ *
+ * @param string $cell      Cellphone number to verify.
+ * @param bool   $deprecated Deprecated.
+ * @return string|bool Either false or the valid cellphone numbers.
+ */
+function is_cell( $cell, $deprecated = false ) {
+	if ( ! empty( $deprecated ) )
+		_deprecated_argument( __FUNCTION__, '3.0.0' );
+
+	// Test for the minimum length the cell can be
+	if ( strlen( $cell ) < 10 ) {
+		/**
+		 * Filters whether an cell number is valid.
+		 *
+		 * This filter is evaluated under several different contexts, such as 'email_too_short',
+		 * 'email_no_at', 'local_invalid_chars', 'domain_period_sequence', 'domain_period_limits',
+		 * 'domain_no_periods', 'sub_hyphen_limits', 'sub_invalid_chars', or no specific context.
+		 *
+		 * @since 2.8.0
+		 *
+		 * @param bool   $is_email Whether the email address has passed the is_email() checks. Default false.
+		 * @param string $email    The email address being checked.
+		 * @param string $context  Context under which the email was tested.
+		 */
+		return apply_filters( 'is_cell', false, $cell, 'cell_too_short' );
+	}
+
+	//Stille need to vvalidate numbers
+
+
+	// Congratulations your cell made it!
+	/** This filter is documented in wp-includes/formatting.php */
+	return apply_filters( 'is_cell', $cell, $cell, null );
+}
+
 /**
  * Verifies that an email is valid.
  *

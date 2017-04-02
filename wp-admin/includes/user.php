@@ -79,6 +79,8 @@ function edit_user( $user_id = 0 ) {
 		$user->last_name = sanitize_text_field( $_POST['last_name'] );
 	if ( isset( $_POST['nickname'] ) )
 		$user->nickname = sanitize_text_field( $_POST['nickname'] );
+	if ( isset( $_POST['cell'] ) )
+		$user->user_cell = sanitize_text_field( $_POST['cell'] );
 	if ( isset( $_POST['display_name'] ) )
 		$user->display_name = sanitize_text_field( $_POST['display_name'] );
 
@@ -178,6 +180,15 @@ function edit_user( $user_id = 0 ) {
 		$errors->add( 'email_exists', __('<strong>ERROR</strong>: This email is already registered, please choose another one.'), array( 'form-field' => 'email' ) );
 	}
 
+		/* checking cell number */
+	if ( empty( $user->user_cell ) ) {
+		$errors->add( 'empty_cell', __( '<strong>ERROR</strong>: Please enter a cellphone number.' ), array( 'form-field' => 'cell' ) );
+	} elseif ( !is_cell( $user->user_cell ) ) {
+		$errors->add( 'invalid_cell', __( '<strong>ERROR</strong>: The cellphone number isn&#8217;t correct.' ), array( 'form-field' => 'cell' ) );
+	} elseif ( ( $owner_id = cell_exists($user->user_cell) ) && ( !$update || ( $owner_id != $user->ID ) ) ) {
+		$errors->add( 'cell_exists', __('<strong>ERROR</strong>: This cellphone number is already registered, please choose another one.'), array( 'form-field' => 'cell' ) );
+	}
+
 	/**
 	 * Fires before user profile update errors are returned.
 	 *
@@ -195,6 +206,7 @@ function edit_user( $user_id = 0 ) {
 	if ( $update ) {
 		$user_id = wp_update_user( $user );
 	} else {
+		//var_dump($user);exit();
 		$user_id = wp_insert_user( $user );
 		$notify  = isset( $_POST['send_user_notification'] ) ? 'both' : 'admin';
 

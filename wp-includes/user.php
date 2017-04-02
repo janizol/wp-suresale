@@ -1308,6 +1308,21 @@ function username_exists( $username ) {
 }
 
 /**
+ * Checks whether the given cell number exists.
+ *
+ * @since 2.1.0
+ *
+ * @param string $cell Cell.
+ * @return int|false The user's ID on success, and false on failure.
+ */
+function cell_exists( $cell ) {
+	if ( $user = get_user_by( 'cell', $cell) ) {
+		return $user->ID;
+	}
+	return false;
+}
+
+/**
  * Checks whether the given email exists.
  *
  * @since 2.1.0
@@ -1506,6 +1521,16 @@ function wp_insert_user( $userdata ) {
 	$raw_user_email = empty( $userdata['user_email'] ) ? '' : $userdata['user_email'];
 
 	/**
+	 * Filters a user's Cell before the user is created or updated.
+	 *
+	 * @since 2.0.3
+	 *
+	 * @param string $raw_user_cell The user's Cell.
+	 */
+
+	$user_cell = empty( $userdata['user_cell'] ) ? '' : $userdata['user_cell'];
+
+	/**
 	 * Filters a user's email before the user is created or updated.
 	 *
 	 * @since 2.0.3
@@ -1624,7 +1649,7 @@ function wp_insert_user( $userdata ) {
 		$user_nicename = $alt_user_nicename;
 	}
 
-	$compacted = compact( 'user_pass', 'user_email', 'user_url', 'user_nicename', 'display_name', 'user_registered' );
+	$compacted = compact( 'user_pass', 'user_email', 'user_url', 'user_nicename', 'display_name', 'user_registered', 'user_cell' );
 	$data = wp_unslash( $compacted );
 
 	if ( $update ) {
