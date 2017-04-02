@@ -425,6 +425,11 @@ if ( is_multisite() && is_network_admin() && ! IS_PROFILE_PAGE && current_user_c
 <h2><?php _e( 'Contact Info' ); ?></h2>
 
 <table class="form-table">
+<tr class="user-cell-wrap">
+	<th><label for="cell"><?php _e('Cell'); ?> <span class="description"><?php _e('(required)'); ?></span></label></th>
+	<td><input type="cell" name="cell" id="cell" value="<?php echo esc_attr( $profileuser->user_cell ) ?>" class="regular-text ltr" />
+	</td>
+</tr>
 <tr class="user-email-wrap">
 	<th><label for="email"><?php _e('Email'); ?> <span class="description"><?php _e('(required)'); ?></span></label></th>
 	<td><input type="email" name="email" id="email" value="<?php echo esc_attr( $profileuser->user_email ) ?>" class="regular-text ltr" />

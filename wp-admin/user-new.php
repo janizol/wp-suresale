@@ -141,6 +141,7 @@ Please click the following link to confirm the invite:
 
 			$smssent = $sms->sendSms($user_data->data->user_cell,$text_msg); //Send SMS
 			//$sms->checkcredits(); //Check your credit balance
+			//var_dump($smssent);exit();
 			if($smssent){
 				wp_redirect( $redirect );
 				die();
